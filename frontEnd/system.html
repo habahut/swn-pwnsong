@@ -1,0 +1,26 @@
+<html ng-app="pwnsong" ng-controller="systemController">
+    <head>
+        <title>
+            System: {{name}}
+        </title>
+    </head>
+
+    <!-- TODO: minify this later -->
+    <script src="js/utils.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="js/pwnsong.js"></script>
+    <script src="js/systemController.js"></script>
+
+    <body>
+        <h1>{{name}}</h1>
+
+        <div>
+            {{description}}
+        </div>
+
+        <div ng-repeat="planet in planets"> 
+            <a href="/planet.html?name={{planet}}">{{planet}}</a> 
+        </div> 
+    </body> 
+</html>

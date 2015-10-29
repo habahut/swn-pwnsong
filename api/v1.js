@@ -23,4 +23,24 @@ app.get("/api/v1/planet/:planetName", function(req, res) {
     });
 });
 
+app.get("/api/v1/system/:systemName", function(req, res) {
+    var systemName = req.params.systemName,
+        query = client.query("SELECT s.name, s.description, array_to_string(array_agg(p.name), ',') as planets "
+                           + "FROM Systems s "
+                           + "  JOIN Planets p ON s.id = p.systemId "
+                           + "WHERE LOWER(s.name) = LOWER('" + systemName + "') "
+                           + "GROUP BY s.id");
+        results = [];
+
+    query.on('row', function(row) {
+        results.push(row);
+        console.log('row', row);
+    });
+    query.on('end', function() {
+        console.log('ending: ' ,results);
+        res.send(results[0]);
+        res.end();
+    });
+});
+
 app.listen(5050);
