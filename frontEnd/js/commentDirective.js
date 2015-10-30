@@ -41,7 +41,6 @@ app.directive("comments", ["$http", function($http) {
                 $http(payload)
                 .success(function(response) {
                     $("#comment-" + index).remove();
-                    delete scope.comments[index];
                 });
             }
         }
