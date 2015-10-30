@@ -8,7 +8,6 @@ app.directive("comments", ["$http", function($http) {
             var url = "/api/v1/" + scope.type + "/" + scope.name + "/comments";
             $http.get(url)
             .success(function(response) {
-                console.log(response);
                 scope.comments = response;
             });
 
@@ -16,17 +15,17 @@ app.directive("comments", ["$http", function($http) {
             scope.submitComment = function() {
                 if (scope.newComment == "") return;
                 var data = {
-                    planetId: scope.planetId,
+                    id: scope.id,
                     playerId: scope.playerId, // hard coded for now
                     commentText: scope.newComment
                 };
-                console.log(data);
                 scope.newComment = "";
-                $http({
+                var payload = {
                     method: "POST",
                     url: "/api/v1/" + scope.type+ "/" + scope.id + "/comment",
                     data: data
-                });
+                }
+                $http(payload);
             };
 
             scope.deleteComment = function(index) {

@@ -79,11 +79,9 @@ app.post("/api/v1/planet/:planetId/comment", function(req, res) {
                            + "(" + playerId + ", '" + commentText + "', " + isGmComment + ")"
                            + "RETURNING id");
     query.on('row', function(row) {
-        console.log("--" , row);
         var sql = "INSERT INTO PlanetsComments "
                    + "(planetsId, commentsId) VALUES "
                    + "(" + planetId + "," + row.id + ")"
-        console.log(sql);
         query2 = client.query(sql);
     });
     res.end();
@@ -91,12 +89,63 @@ app.post("/api/v1/planet/:planetId/comment", function(req, res) {
 
 /// I think I remember something about DELETE not having a request body in express.
 app.post("/api/v1/planet/comment", function(req, res) {
-    console.log(req.body);
     var commentId = req.body.id,
         sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
-    console.log(sql);
         query = client.query(sql);
     res.end();
 });
+
+/// This is stupid copy and paste. Will come up with some thing more elegant
+// when switching to firebase
+app.get("/api/v1/system/:systemName/comments", function(req, res) {
+    var systemName = req.params.systemName,
+        sql = "SELECT c.id, c.playerId, c.text, c.isGmComment, pl.characterName "
+            + "FROM Systems s "
+            + "JOIN SystemsComments sc "
+            + "  ON s.id = sc.systemsId "
+            + "JOIN Comments c "
+            + "  ON sc.commentsId = c.id "
+            + "JOIN Players pl "
+            + "  ON c.playerId = pl.id "
+            + "WHERE LOWER(s.name) = LOWER('" + systemName + "')"
+            + "  AND c.deleted = false"
+        query = client.query(sql);
+        results = [];
+    // TODO: make these use promises.
+    query.on('row', function(row) {
+        results.push(row);
+    });
+    query.on('end', function() {
+        res.send(results);
+        res.end();
+    });
+});
+
+app.post("/api/v1/system/:systemId/comment", function(req, res) {
+    var systemId = req.params.systemId,
+        playerId = req.body.playerId,
+        commentText = req.body.commentText,
+        isGmComment = req.body.isGmComment || false,
+        query = client.query("INSERT INTO Comments "
+                           + "(playerId, text, isGmComment) VALUES "
+                           + "(" + playerId + ", '" + commentText + "', " + isGmComment + ")"
+                           + "RETURNING id");
+    query.on('row', function(row) {
+        var sql = "INSERT INTO SystemsComments "
+                   + "(systemsId, commentsId) VALUES "
+                   + "(" + systemId + "," + row.id + ")"
+        query2 = client.query(sql);
+    });
+    res.end();
+});
+
+app.post("/api/v1/system/comment", function(req, res) {
+    var commentId = req.body.id,
+        sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
+        query = client.query(sql);
+    res.end();
+});
+
+
 
 app.listen(5050);
