@@ -12,12 +12,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="js/pwnsong.js"></script>
     <script src="js/planetController.js"></script>
+    <script src="js/commentDirective.js"></script>
  
     <body>
         <h1>{{name}}</h1>
         <div class="description">
             {{description}}
         </div>
+        <hr>
+        <comments objectName="{{name}}" objectType="type"></comments>
     </body>
 </html>
 

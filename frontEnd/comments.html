@@ -1,0 +1,13 @@
+<div>
+    <div ng-repeat="comment in comments">
+        <div ng-if="!comment.isGm" ng-attr-id="{{'comment-' + $index}}">
+            {{ comment.text }} - {{ comment.charactername }}
+            <div style="float: right" ng-if="comment.playerid == playerId">
+                <button ng-click="deleteComment($index)">delete comment</button>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <textarea rows="4" cols="100" ng-model="newComment"></textarea>
+    <button ng-click="submitComment()">Submit Comment</button>
+</div>
