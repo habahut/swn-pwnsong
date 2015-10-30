@@ -3,5 +3,8 @@
     border: 1px solid black;
 }
 .planet-list {
-    background-color: #CC0000;
+    background-color: #DDDDDD;
+}
+.planet-in-list {
+    padding-left: 15px;
 }

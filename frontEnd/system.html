@@ -21,9 +21,15 @@
             {{description}}
         </div>
 
-        <div class="planet-list" ng-repeat="planet in planets"> 
-            <a href="/planet.html?name={{planet}}">{{planet}}</a> 
-        </div> 
+        <hr>
+
+        <div class=planet-list>
+            <b> Planets </b>
+            <li ng-repeat="planet in planets" class="planet-in-list">
+                <a href="/planet.html?name={{planet}}">{{planet}}</a> 
+            </li> 
+        </div>
+        <hr>
         <comments objectName="{{name}}" objectType="type"></comments>
     </body> 
 </html>
