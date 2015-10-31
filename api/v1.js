@@ -3,8 +3,13 @@ var express = require('express'),
     pg = require('pg'),
     bodyParser = require('body-parser');
 
-var connectionString = 'postgres://viewer:123@localhost/pwnsong';
-    client = new pg.Client(connectionString);
+
+if (process.env.DATABASE_URL != undefined) {
+    var connectionString = process.env.DATABASE_URL;
+} else {
+    var connectionString = 'postgres://viewer:123@localhost/pwnsong';
+}
+var client = new pg.Client(connectionString);
 client.connect();
 
 app.use("/", express.static(__dirname + "/../frontEnd"));
