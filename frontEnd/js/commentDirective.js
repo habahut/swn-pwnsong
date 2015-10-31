@@ -3,8 +3,6 @@ app.directive("comments", ["$http", function($http) {
         restrict: "E",
         templateUrl: "../comments.html",
         link: function(scope, element) {
-            //TODO: get player id somehow
-            scope.playerId = 5;
             var url = "/api/v1/" + scope.type + "/" + scope.name + "/comments";
             $http.get(url)
             .success(function(response) {
@@ -14,9 +12,10 @@ app.directive("comments", ["$http", function($http) {
             scope.newComment = "";
             scope.submitComment = function() {
                 if (scope.newComment == "") return;
+                if (scope.player == undefined) return;
                 var data = {
                     id: scope.id,
-                    playerId: scope.playerId, // hard coded for now
+                    playerId: scope.player.id,
                     commentText: scope.newComment
                 };
                 scope.newComment = "";
