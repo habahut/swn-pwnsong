@@ -4,11 +4,8 @@ var express = require('express'),
     bodyParser = require('body-parser');
 
 
-if (process.env.DATABASE_URL != undefined) {
-    var connectionString = process.env.DATABASE_URL;
-} else {
-    var connectionString = 'postgres://viewer:123@localhost/pwnsong';
-}
+var connectionString = process.env.DATABASE_URL || 'postgres://viewer:123@localhost/pwnsong',
+    port = process.env.PORT || 5050;
 var client = new pg.Client(connectionString);
 client.connect();
 
@@ -185,4 +182,4 @@ app.post("/api/v1/delete/system/comment", function(req, res) {
 
 
 
-app.listen(5050);
+app.listen(port);
