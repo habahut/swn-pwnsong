@@ -4,6 +4,16 @@ app.directive("login", ["$http", function($http) {
         templateUrl: "../logIn.html",
         link: function(scope) {
             scope.players = [];
+            scope.selectName = function(player) {
+                scope.player = player;
+                window.createCookie("characterName", scope.player.charactername);
+                $("#character-list").css("display", "none");
+            }
+
+            scope.openNameDialogue = function() {
+                $("#character-list").css("display", "block");
+            }
+
             characterName = window.readCookie("characterName");
             if (characterName == undefined || characterName == "undefied") 
                 scope.openNameDialogue();
@@ -21,16 +31,6 @@ app.directive("login", ["$http", function($http) {
                     }
                 });
             });
-
-            scope.selectName = function(player) {
-                scope.player = player;
-                window.createCookie("characterName", scope.player.charactername);
-                $("#character-list").css("display", "none");
-            }
-
-            scope.openNameDialogue = function() {
-                $("#character-list").css("display", "block");
-            }
         }
     };
 }]);
