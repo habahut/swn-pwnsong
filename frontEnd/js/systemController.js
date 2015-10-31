@@ -12,8 +12,11 @@ app.controller("systemController", function($scope, $http) {
             .success(function(response) {
                 $scope.name = response.name;
                 $scope.description = response.description;
-                $scope.planets = response.planets.split(',');
+                if (response.planets != undefined) {
+                    $scope.planets = response.planets.split(',');
+                }
                 $scope.id = response.id;
+                console.log("here ", response);
             });
         }
     };

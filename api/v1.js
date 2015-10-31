@@ -20,7 +20,6 @@ app.get("/api/v1/players", function(req, res) {
         results.push(row);
     });
     query.on('end', function() {
-        console.log('players results', results);
         res.send(results);
         res.end();
     });
@@ -33,7 +32,6 @@ app.get("/api/v1/systems", function(req, res) {
         results.push(row);
     });
     query.on('end', function() {
-        console.log('systems results' , results);
         res.send(results);
         res.end();
     });
@@ -56,13 +54,16 @@ app.get("/api/v1/planet/:planetName", function(req, res) {
 
 app.get("/api/v1/system/:systemName", function(req, res) {
     var systemName = req.params.systemName,
-        query = client.query("SELECT s.id, s.name, s.description, array_to_string(array_agg(p.name), ',') as planets "
-                           + "FROM Systems s "
-                           + "  JOIN Planets p ON s.id = p.systemId "
-                           + "WHERE LOWER(s.name) = LOWER('" + systemName + "') "
-                           + "GROUP BY s.id");
+        sql = "SELECT s.id, s.name, s.description, array_to_string(array_agg(p.name), ',') as planets "
+            + "FROM Systems s "
+            + "  JOIN Planets p ON s.id = p.systemId "
+            + "WHERE LOWER(s.name) = LOWER('" + systemName + "') "
+            + "GROUP BY s.id";
+        query = client.query(sql);
         results = [];
 
+
+    console.log(sql);
     query.on('row', function(row) {
         results.push(row);
     });
@@ -141,6 +142,7 @@ app.get("/api/v1/system/:systemName/comments", function(req, res) {
             + "ORDER BY c.id";
         query = client.query(sql);
         results = [];
+
     // TODO: make these use promises.
     query.on('row', function(row) {
         results.push(row);
