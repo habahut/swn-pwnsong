@@ -1,1 +1,1 @@
-web: nodejs api/v1.js
+web: node api/v1.js
