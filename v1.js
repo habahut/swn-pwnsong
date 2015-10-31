@@ -12,7 +12,7 @@ if (process.env.DATABASE_URL != undefined) {
 var client = new pg.Client(connectionString);
 client.connect();
 
-app.use("/", express.static(__dirname + "/../frontEnd"));
+app.use("/", express.static(__dirname + "/frontEnd"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -67,8 +67,6 @@ app.get("/api/v1/system/:systemName", function(req, res) {
         query = client.query(sql);
         results = [];
 
-
-    console.log(sql);
     query.on('row', function(row) {
         results.push(row);
     });
