@@ -3,11 +3,15 @@ app.directive("comments", ["$http", function($http) {
         restrict: "E",
         templateUrl: "../comments.html",
         link: function(scope, element) {
-            var url = "/api/v1/" + scope.type + "/" + scope.name + "/comments";
-            $http.get(url)
-            .success(function(response) {
-                scope.comments = response;
-            });
+            scope.url = "/api/v1/" + scope.type + "/" + scope.name + "/comments";
+            scope.getComments = function() {
+                $http.get(scope.url)
+                .success(function(response) {
+                    scope.comments = response;
+                    console.log('comments' , response);
+                });
+            }
+            scope.getComments();
 
             scope.newComment = "";
             scope.submitComment = function() {
@@ -24,7 +28,12 @@ app.directive("comments", ["$http", function($http) {
                     url: "/api/v1/" + scope.type+ "/" + scope.id + "/comment",
                     data: data
                 }
-                $http(payload);
+                $http(payload)
+                .success(function() {
+                    console.log('2');
+                    scope.getComments();
+                });
+                console.log('1');
             };
 
             scope.deleteComment = function(index) {
@@ -32,7 +41,7 @@ app.directive("comments", ["$http", function($http) {
                 console.log('comment: ' , comment);
                 var payload = {
                     method: "POST",
-                    url: "/api/v1/" + scope.type + "/comment",
+                    url: "/api/v1/delete/" + scope.type + "/comment",
                     data: comment,
                     "Content-Type": "application/json"
                 };

@@ -83,7 +83,8 @@ app.get("/api/v1/planet/:planetName/comments", function(req, res) {
                            + "JOIN Players pl "
                            + "  ON c.playerId = pl.id "
                            + "WHERE LOWER(p.name) = LOWER('" + planetName + "')"
-                           + "  AND c.deleted = false");
+                           + "  AND c.deleted = false "
+                           + "ORDER BY id");
         results = [];
     // TODO: make these use promises.
     query.on('row', function(row) {
@@ -109,12 +110,14 @@ app.post("/api/v1/planet/:planetId/comment", function(req, res) {
                    + "(planetsId, commentsId) VALUES "
                    + "(" + planetId + "," + row.id + ")"
         query2 = client.query(sql);
+        query2.on('end', function() {
+            res.end();
+        });
     });
-    res.end();
 });
 
 /// I think I remember something about DELETE not having a request body in express.
-app.post("/api/v1/planet/comment", function(req, res) { 
+app.post("/api/v1/delete/planet/comment", function(req, res) { 
     var commentId = req.body.id,
         sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
         query = client.query(sql);
@@ -134,7 +137,8 @@ app.get("/api/v1/system/:systemName/comments", function(req, res) {
             + "JOIN Players pl "
             + "  ON c.playerId = pl.id "
             + "WHERE LOWER(s.name) = LOWER('" + systemName + "')"
-            + "  AND c.deleted = false"
+            + "  AND c.deleted = false "
+            + "ORDER BY c.id";
         query = client.query(sql);
         results = [];
     // TODO: make these use promises.
@@ -161,11 +165,13 @@ app.post("/api/v1/system/:systemId/comment", function(req, res) {
                    + "(systemsId, commentsId) VALUES "
                    + "(" + systemId + "," + row.id + ")"
         query2 = client.query(sql);
+        query2.on('end', function() {
+            res.end();
+        });
     });
-    res.end();
 });
 
-app.post("/api/v1/system/comment", function(req, res) {
+app.post("/api/v1/delete/system/comment", function(req, res) {
     var commentId = req.body.id,
         sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
         query = client.query(sql);
