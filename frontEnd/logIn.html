@@ -1,0 +1,13 @@
+<div>
+    <button style="float: right" ng-click="openNameDialogue()"> Not {{characterName}}? </button>
+    <b> Logged in as </b>
+    <h2> {{ characterName }} </h2>
+</div>
+<hr>
+
+<div id="character-list" style="display: none" class="character-list">
+    <div class='character-in-list' ng-repeat="player in players" ng-click='selectName(player.               charactername)'>
+        {{ player.charactername }}
+    </div>
+</div>
+

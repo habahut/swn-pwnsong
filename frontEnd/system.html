@@ -13,8 +13,10 @@
     <script src="js/pwnsong.js"></script>
     <script src="js/systemController.js"></script>
     <script src="js/commentDirective.js"></script>
+    <script src="js/logIn.js"></script>
 
     <body>
+        <login></login>
         <h1>{{name}}</h1>
 
         <div class="description">
@@ -23,9 +25,9 @@
 
         <hr>
 
-        <div class=planet-list>
+        <div class="object-list">
             <b> Planets </b>
-            <li ng-repeat="planet in planets" class="planet-in-list">
+            <li ng-repeat="planet in planets" class="object-in-list">
                 <a href="/planet.html?name={{planet}}">{{planet}}</a> 
             </li> 
         </div>

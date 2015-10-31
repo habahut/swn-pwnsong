@@ -13,6 +13,32 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.get("/api/v1/players", function(req, res) {
+    var query = client.query("SELECT * FROM Players"),
+        results = [];
+    query.on('row', function(row) {
+        results.push(row);
+    });
+    query.on('end', function() {
+        console.log('players results', results);
+        res.send(results);
+        res.end();
+    });
+});
+
+app.get("/api/v1/systems", function(req, res) {
+    var query = client.query("SELECT * FROM Systems"),
+        results = [];
+    query.on('row', function(row) {
+        results.push(row);
+    });
+    query.on('end', function() {
+        console.log('systems results' , results);
+        res.send(results);
+        res.end();
+    });
+});
+
 app.get("/api/v1/planet/:planetName", function(req, res) {
     var planetName = req.params.planetName,
         query = client.query("SELECT id, name, description "
@@ -88,7 +114,7 @@ app.post("/api/v1/planet/:planetId/comment", function(req, res) {
 });
 
 /// I think I remember something about DELETE not having a request body in express.
-app.post("/api/v1/planet/comment", function(req, res) {
+app.post("/api/v1/planet/comment", function(req, res) { 
     var commentId = req.body.id,
         sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
         query = client.query(sql);

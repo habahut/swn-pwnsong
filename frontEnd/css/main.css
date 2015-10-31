@@ -2,9 +2,23 @@
     background-color: #DDDDDD;
     border: 1px solid black;
 }
-.planet-list {
+.object-list {
     background-color: #DDDDDD;
 }
-.planet-in-list {
+.object-in-list {
+    font-size: 20px;
     padding-left: 15px;
+}
+.character-list {
+    background-color:#DD3333;
+    width: 400px;
+}
+.character-in-list {
+    font-size: 2em;
+}
+.character-in-list:hover {
+    background-color: #33DDDD;
+}
+:link {
+    color: #0000AA;
 }

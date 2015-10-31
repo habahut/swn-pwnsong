@@ -1,5 +1,37 @@
-<html>
-<body>
-OK!
-</body>
+<html ng-app="pwnsong" ng-controller="indexController">
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/utils.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="js/pwnsong.js"></script>
+    <script src="js/logIn.js"></script>
+    <script src="js/indexController.js"></script>
+
+    <body>
+        <!-- 
+        <div>
+            <button style="float: right" ng-click="openNameDialogue()"> Not {{characterName}}? </button>
+            <b> Logged in as </b>
+            <h2> {{ characterName }} </h2>
+        </div>
+        <hr>
+        -->
+        <login></login>
+
+        <h3> Systems </h3>
+        <div class="object-list">
+            <div class="object-in-list" ng-repeat="system in systems">
+                <a href="/system.html?name={{system.name}}">{{ system.name }}</a>
+            </div>
+        </div>
+
+        <!--
+        <div id="character-list" style="display: none" class="character-list">
+            <div class='character-in-list' ng-repeat="player in players" ng-click='selectName(player.charactername)'>
+                {{ player.charactername }}
+            </div>
+        </div>
+        -->
+    </body>
 </html>
