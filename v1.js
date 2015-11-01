@@ -41,9 +41,12 @@ app.get("/api/v1/systems", function(req, res) {
 
 app.get("/api/v1/planet/:planetName", function(req, res) {
     var planetName = req.params.planetName,
-        query = client.query("SELECT id, name, description "
-                           + "FROM Planets "
-                           + "WHERE LOWER(name) = LOWER('" + planetName + "');"),
+        sql = "SELECT p.id, p.name, p.description, s.name as systemName "
+            + "FROM Planets p "
+            + "JOIN Systems s "
+            + "  ON s.id = p.systemId "
+            + "WHERE LOWER(p.name) = LOWER('" + planetName + "')"
+        query = client.query(sql),
         results = [];
     query.on('row', function(row) {
         results.push(row);
@@ -75,17 +78,19 @@ app.get("/api/v1/system/:systemName", function(req, res) {
 
 app.get("/api/v1/planet/:planetName/comments", function(req, res) {
     var planetName = req.params.planetName,
-        query = client.query("SELECT c.id, c.playerId, c.text, c.isGmComment, pl.characterName "
-                           + "FROM Planets p "
-                           + "JOIN PlanetsComments pc "
-                           + "  ON p.id = pc.planetsId "
-                           + "JOIN Comments c "
-                           + "  ON pc.commentsId = c.id "
-                           + "JOIN Players pl "
-                           + "  ON c.playerId = pl.id "
-                           + "WHERE LOWER(p.name) = LOWER('" + planetName + "')"
-                           + "  AND c.deleted = false "
-                           + "ORDER BY id");
+        sql = "SELECT c.id, c.playerId, c.text, c.isGmComment, pl.characterName "
+            + "FROM Planets p "
+            + "JOIN PlanetsComments pc "
+            + "  ON p.id = pc.planetsId "
+            + "JOIN Comments c "
+            + "  ON pc.commentsId = c.id "
+            + "JOIN Players pl "
+            + "  ON c.playerId = pl.id "
+            + "WHERE LOWER(p.name) = LOWER('" + planetName + "')"
+            + "  AND c.deleted = false "
+            + "ORDER BY id",
+        query = client.query(sql);
+
         results = [];
     // TODO: make these use promises.
     query.on('row', function(row) {

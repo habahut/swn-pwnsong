@@ -16,7 +16,6 @@ app.controller("systemController", function($scope, $http) {
                     $scope.planets = response.planets.split(',');
                 }
                 $scope.id = response.id;
-                console.log("here ", response);
             });
         }
     };

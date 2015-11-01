@@ -12,6 +12,7 @@ app.controller("planetController", function($scope, $http) {
                 $scope.name = response.name;
                 $scope.description = response.description;
                 $scope.id = response.id;
+                $scope.systemName = response.systemname;
             });
         }
     };
