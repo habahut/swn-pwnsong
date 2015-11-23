@@ -5,9 +5,15 @@ app.directive("login", ["$http", function($http) {
         link: function(scope) {
             scope.players = [];
             scope.selectName = function(player) {
-                scope.player = player;
+                scope.player = (player == "SpaceMaster") ? spaceMaster() : player;
                 window.createCookie("characterName", scope.player.charactername);
                 $("#character-list").css("display", "none");
+            }
+
+            function spaceMaster() {
+                return {
+                    charactername: 'SpaceMaster'
+                };
             }
 
             scope.openNameDialogue = function() {
