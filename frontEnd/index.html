@@ -12,7 +12,7 @@
     <body>
         <login></login>
 
-        <img src="/assets/GridTemplate.jpg" style="position: absolute; left: 0px; top: 120px;" width="1020" height="876" z-index="0" />
+        <img src="/assets/GridTemplate.jpg" width="1020" height="876" z-index="0" />
         <div>
             <div ng-repeat="system in systems">
                 <a href="/system.html?name={{system.name}}" style="position: absolute; top: {{system.y}}; left: {{system.x}}; color: white;">
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <submissions style="position: absolute; top: 1010" type="System" player="{{player}}"></submissions>
+        <submissions type="System" player="{{player}}"></submissions>
 
     </body>
 </html>

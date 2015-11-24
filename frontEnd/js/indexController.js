@@ -12,8 +12,8 @@ app.controller("indexController", function($scope, $http) {
                     // round floating point precision
                     y = Math.round(system.coords % 1 * 10);
                 system.x = (x - 1) * 95;
-                system.x += (y % 2 != 1) ? 25 : 75;
-                system.y = 125 + (y - 1) * 80 + 48;
+                system.x += (y % 2 != 1) ? 35 : 85;
+                system.y = 118 + (y - 1) * 80 + 38;
                 visibleSystems.push(system);
             });
             $scope.systems = response;
