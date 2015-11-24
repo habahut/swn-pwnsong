@@ -1,0 +1,7 @@
+<div ng-if="show">
+    <div ng-repeat="key in requiredKeys">
+        <label>{{key}}</label>
+        <input type="text" ng-attr-id="{{ key }}">
+    </div>
+    <button ng-click="submit()">Submit</button>
+</div>

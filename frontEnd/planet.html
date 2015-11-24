@@ -14,15 +14,17 @@
     <script src="js/planetController.js"></script>
     <script src="js/logIn.js"></script>
     <script src="js/commentDirective.js"></script>
+    <script src="js/submissionsDirective.js"></script>
  
     <body>
         <login></login>
-        <h1><a href="/system.html?name={{systemName}}">{{ systemName }} </a> / {{name}}</h1>
+        <h1><a href="/">Home</a> / <a href="/system.html?name={{systemName}}">{{ systemName }}<a> / {{name}}</h1>
         <p class="description">
             {{description}}
         </p>
         <hr>
         <comments objectName="{{name}}" objectType="type"></comments>
+        <submissions type="Planet"></submissions>
     </body>
 </html>
 

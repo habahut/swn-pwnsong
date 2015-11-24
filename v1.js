@@ -41,7 +41,7 @@ app.get("/api/v1/systems", function(req, res) {
 
 app.get("/api/v1/planet/:planetName", function(req, res) {
     var planetName = req.params.planetName,
-        sql = "SELECT p.id, p.name, p.description, s.name as systemName "
+        sql = "SELECT p.id, p.name, p.description, p.visible, s.name as systemName, s.id as systemId "
             + "FROM Planets p "
             + "JOIN Systems s "
             + "  ON s.id = p.systemId "
@@ -59,7 +59,7 @@ app.get("/api/v1/planet/:planetName", function(req, res) {
 
 app.get("/api/v1/system/:systemName", function(req, res) {
     var systemName = req.params.systemName,
-        sql = "SELECT s.id, s.name, s.description, array_to_string(array_agg(p.name), ',') as planets "
+        sql = "SELECT s.id, s.name, s.description, s.visible, array_to_string(array_agg(p.name), ',') as planets "
             + "FROM Systems s "
             + "  JOIN Planets p ON s.id = p.systemId "
             + "WHERE LOWER(s.name) = LOWER('" + systemName + "') "
@@ -173,6 +173,7 @@ app.post("/api/v1/system/:systemId/comment", function(req, res) {
                    + "(" + systemId + "," + row.id + ")"
         query2 = client.query(sql);
         query2.on('end', function() {
+            res.status(200);
             res.end();
         });
     });
@@ -183,6 +184,48 @@ app.post("/api/v1/delete/system/comment", function(req, res) {
         sql = "UPDATE Comments SET deleted = true WHERE id = " + commentId;
         query = client.query(sql);
     res.end();
+});
+
+app.post("/api/v1/system", function(req, res) {
+    var requiredKeys = ["name", "description", "coords", "visible"];
+    requiredKeys.forEach(function(key) {
+        if (req[key] == "undefined" || req[key] == undefined) {
+            res.status(500);
+            res.end();
+        }
+    });
+    var sql = "INSERT INTO Systems "
+            + "(name, description, coords, visible) VALUES "
+            + "('" + req.body.name +"', '" + req.body.description + "', " + req.body.coords 
+            + ", " + req.body.visible +")",
+        query = client.query(sql);
+    console.log(sql);
+
+    query.on('end', function() {
+        res.status(200);
+        res.end();
+    });
+});
+
+app.post("/api/v1/planet", function(req, res) {
+    var requiredKeys = ["name", "description", "systemid", "visible"];
+    requiredKeys.forEach(function(key) {
+        if (req[key] == "undefined" || req[key] == undefined) {
+            res.status(500);
+            res.end();
+        }
+    });
+    var sql = "INSERT INTO Planets "
+            + "(name, description, systemId, visible) VALUES "
+            + "('" + req.body.name +"', '" + req.body.description + "', " + req.body.systemid
+            + ", " + req.body.visible +")",
+        query = client.query(sql);
+    console.log(sql);
+
+    query.on('end', function() {
+        res.status(200);
+        res.end();
+    });
 });
 
 

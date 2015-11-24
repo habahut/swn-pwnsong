@@ -8,7 +8,6 @@ app.directive("comments", ["$http", function($http) {
                 $http.get(scope.url)
                 .success(function(response) {
                     scope.comments = response;
-                    console.log('comments' , response);
                 });
             }
             scope.getComments();
@@ -30,15 +29,12 @@ app.directive("comments", ["$http", function($http) {
                 }
                 $http(payload)
                 .success(function() {
-                    console.log('2');
                     scope.getComments();
                 });
-                console.log('1');
             };
 
             scope.deleteComment = function(index) {
                 comment = scope.comments[index];
-                console.log('comment: ' , comment);
                 var payload = {
                     method: "POST",
                     url: "/api/v1/delete/" + scope.type + "/comment",

@@ -14,10 +14,11 @@
     <script src="js/systemController.js"></script>
     <script src="js/logIn.js"></script>
     <script src="js/commentDirective.js"></script>
+    <script src="js/submissionsDirective.js"></script>
 
     <body>
         <login></login>
-        <h1><a href="/">..</a> / {{name}}</h1>
+        <h1><a href="/">Home</a> / {{name}}</h1>
 
         <div class="description">
             {{description}}
@@ -32,6 +33,8 @@
             </li> 
         </div>
         <hr>
+
         <comments objectName="{{name}}" objectType="type"></comments>
+        <submissions type="Planet" player="{{player}}"></submissions>
     </body> 
 </html>

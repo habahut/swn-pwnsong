@@ -23,7 +23,6 @@ app.directive("login", ["$http", function($http) {
             characterName = window.readCookie("characterName");
             if (characterName == undefined || characterName == "undefied") 
                 scope.openNameDialogue();
-            console.log('the characterName : ' , characterName);
  
             $http.get("/api/v1/players")
             .success(function(response) {
